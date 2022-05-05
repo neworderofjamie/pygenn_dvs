@@ -39,5 +39,37 @@ import_array();
 %template(Davis) DVS::Base<libcaer::devices::davis>;
 
 // Wrap various useful variants of readEvents
-%template(readEvents) DVS::Base<libcaer::devices::dvXplorer>::readEvents<640, DVS::NoFilter, DVS::NoTransform, DVS::NoTransform>;
+%extend DVS::Base<libcaer::devices::dvs128> {
+	%template(readEvents) readEvents<128, DVS::NoFilter, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOnEvents) readEvents<128, DVS::PolarityFilter<DVS::Polarity::ON>, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOffEvents) readEvents<128, DVS::PolarityFilter<DVS::Polarity::OFF>, DVS::NoTransform, DVS::NoTransform>;
+};
 
+
+%extend DVS::Base<libcaer::devices::dvXplorer> {
+	%template(readEvents) readEvents<640, DVS::NoFilter, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOnEvents) readEvents<640, DVS::PolarityFilter<DVS::Polarity::ON>, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOffEvents) readEvents<640, DVS::PolarityFilter<DVS::Polarity::OFF>, DVS::NoTransform, DVS::NoTransform>;
+	
+	%template(readEventsSquare) readEvents<480, DVS::ROIFilter<80, 560, 0, 480>, DVS::Subtract<43>, DVS::NoTransform>;
+	%template(readOnEventsSquare) readEvents<480, DVS::CombineFilter<DVS::ROIFilter<80, 560, 0, 480>, DVS::PolarityFilter<DVS::Polarity::ON>>, DVS::Subtract<80>, DVS::NoTransform>;
+	%template(readOffEventsSquare) readEvents<480, DVS::CombineFilter<DVS::ROIFilter<80, 560, 0, 480>, DVS::PolarityFilter<DVS::Polarity::OFF>>, DVS::Subtract<80>, DVS::NoTransform>;
+	
+	%template(readDownsampleEvents) readEvents<320, DVS::NoFilter, DVS::Scale<16384>, DVS::Scale<16384>>;
+	%template(readDownsampleOnEvents) readEvents<320, DVS::PolarityFilter<DVS::Polarity::ON>, DVS::Scale<16384>, DVS::Scale<16384>>;
+	%template(readDownsampleOffEvents) readEvents<320, DVS::PolarityFilter<DVS::Polarity::OFF>, DVS::Scale<16384>, DVS::Scale<16384>>;
+	
+	%template(readDownsampleEventsSquare) readEvents<240, DVS::ROIFilter<80, 560, 0, 480>, DVS::CombineTransform<DVS::Subtract<80>, DVS::Scale<16384>>, DVS::Scale<16384>>;
+	%template(readDownsampleOnEventsSquare) readEvents<240, DVS::CombineFilter<DVS::ROIFilter<80, 560, 0, 480>, DVS::PolarityFilter<DVS::Polarity::ON>>, DVS::CombineTransform<DVS::Subtract<80>, DVS::Scale<16384>>, DVS::Scale<16384>>;
+	%template(readDownsampleOffEventsSquare) readEvents<240, DVS::CombineFilter<DVS::ROIFilter<80, 560, 0, 480>, DVS::PolarityFilter<DVS::Polarity::OFF>>, DVS::CombineTransform<DVS::Subtract<80>, DVS::Scale<16384>>, DVS::Scale<16384>>;
+};
+
+%extend DVS::Base<libcaer::devices::davis> {
+	%template(readEvents) readEvents<346, DVS::NoFilter, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOnEvents) readEvents<346, DVS::PolarityFilter<DVS::Polarity::ON>, DVS::NoTransform, DVS::NoTransform>;
+	%template(readOffEvents) readEvents<346, DVS::PolarityFilter<DVS::Polarity::OFF>, DVS::NoTransform, DVS::NoTransform>;
+	
+	%template(readEventsSquare) readEvents<260, DVS::ROIFilter<43, 303, 0, 260>, DVS::Subtract<43>, DVS::NoTransform>;
+	%template(readOnEventsSquare) readEvents<260, DVS::CombineFilter<DVS::ROIFilter<43, 303, 0, 260>, DVS::PolarityFilter<DVS::Polarity::ON>>, DVS::Subtract<43>, DVS::NoTransform>;
+	%template(readOffEventsSquare) readEvents<260, DVS::CombineFilter<DVS::ROIFilter<43, 303, 0, 260>, DVS::PolarityFilter<DVS::Polarity::OFF>>, DVS::Subtract<43>, DVS::NoTransform>;
+};

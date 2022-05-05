@@ -1,0 +1,9 @@
+/build
+/dist
+/pygenn_dvs.egg-info
+
+**/__pycache__
+
+/pygenn_dvs/*.so
+/pygenn_dvs/dvs.py
+/pygenn_dvs/dvs_wrap.cpp
